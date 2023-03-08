@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Music</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100vh;
+      background: rgb(31, 30, 30);
+      color: rgb(31, 30, 30);
+    }
+
+    .songItem {
+      width: 15rem;
+      height: 15rem;
+      background-color: red;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    img {
+      width: 15rem;
+      height: 15rem;
+    }
+
+    #like {
+      cursor: pointer;
+      position: absolute;
+      bottom: 7%;
+      right: 7%;
+      color: black;
+    }
+
+    #masterPlay {
+      cursor: pointer;
+      position: absolute;
+      bottom: 7%;
+      left: 7%;
+      color: black;
+    }
+
+    input {
+      cursor: pointer;
+      width: 100%;
+      height: 0px;
+    }
+
+    #like {
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="songItem">
+    <img src="/music/songCover.jpg" alt="kanha" />
+    <input type="range" name="range" id="myProgressBar" value="0" />
+    <i class="fa-solid fa-play" id="masterPlay"></i>
+    <i class="fa-solid fa-heart" id="like"></i>
+  </div>
+
+  <script src="https://kit.fontawesome.com/a09ade522b.js" crossorigin="anonymous"></script>
+
+  <script>
+    let masterPlay = document.getElementById("masterPlay");
+    let like = document.getElementById("like");
+    let audioEle = new Audio("mann_mera.mp3");
+    let myProgressBar = document.getElementById("myProgressBar");
+
+    like.addEventListener("click", () => {
+      if (like.style.color == "white") {
+        like.style.color = "black";
+      } else {
+        like.style.color = "white";
+      }
+    });
+
+    masterPlay.addEventListener("click", () => {
+      if (audioEle.paused || audioEle.currentTime <= 0) {
+        audioEle.play();
+        masterPlay.classList.remove("fa-play");
+        masterPlay.classList.add("fa-pause");
+        masterPlay.style.right = "8%";
+      } else {
+        audioEle.pause();
+        masterPlay.classList.remove("fa-pause");
+        masterPlay.classList.add("fa-play");
+        masterPlay.style.right = "7%";
+      }
+    });
+
+    audioEle.addEventListener("timeupdate", () => {
+      let progress = parseInt(
+        (audioEle.currentTime / audioEle.duration) * 100
+      );
+      myProgressBar.value = progress;
+    });
+
+    myProgressBar.addEventListener("change", () => {
+      audioEle.currentTime = (myProgressBar.value * audioEle.duration) / 100;
+    });
+  </script>
+</body>
+
+</html>
